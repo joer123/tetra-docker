@@ -1,0 +1,14 @@
+FROM alpine:latest
+
+RUN apk update && apk add \
+	npm nodejs \
+	python3 \
+	make \
+	build-base \
+	git
+
+RUN git clone https://github.com/valcarcexyz/tetra-kit-player.git /app
+WORKDIR /app
+RUN npm install
+RUN rm .env
+ENTRYPOINT [ "npm", "run", "start" ]

@@ -5,7 +5,8 @@ RUN apt update && apt install -y \
 	rapidjson-dev \
 	zlib1g-dev \
 	libncurses-dev \
-	gcc g++ make git
+	gcc g++ make git \
+	tcpdump
 
 RUN git clone -b custom-address https://git.sr.ht/~valcarcexyz/tetra-kit /app/tetra-kit
 WORKDIR /app/tetra-kit

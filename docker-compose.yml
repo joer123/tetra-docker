@@ -4,18 +4,37 @@ services:
       context: .
       dockerfile: Dockerfile.phy
     devices:
-      - /dev/bus/usb/003/006
+      - /dev/bus/usb/003/013
     shm_size: '2g'
   decoder:
     build:
       context: .
       dockerfile: Dockerfile.tetra-kit
     entrypoint: /app/decoder
-    ports:
-      - 42001:42001
   
   recorder:
     build:
       context: .
       dockerfile: Dockerfile.tetra-kit
     entrypoint: /app/recorder
+    volumes:
+      - ./log.txt:/app/log.txt
+      - ./raw:/app/raw
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.web
+    volumes:
+      - ./log.txt:/app/log.txt
+      - ./raw:/app/raw
+    environment:
+      - PORT=8443
+      - USERNAME=admin
+      - PASSWORD=password
+      - SECURE=false
+      - PUBLIC=false
+      - TETRA_KIT_PATH=/app/raw
+      - TETRA_KIT_LOG_PATH=/app/log.txt
+    ports:
+      - 8443:8443
