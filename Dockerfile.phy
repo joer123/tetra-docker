@@ -1,6 +1,6 @@
 FROM alpine:latest
 COPY gr-phy.py /app/main.py
-COPY decoder /app
+#COPY decoder /app
 RUN apk update && apk add rtl-sdr gnuradio gr-osmosdr
 RUN mkdir -p /root/.config/gnuradio/prefs/ && echo "shm" > /root/.config/gnuradio/prefs/vmcircbuf_default_factory
 ENTRYPOINT [ "python", "/app/main.py" ]
