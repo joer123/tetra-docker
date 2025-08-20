@@ -52,18 +52,20 @@ class pi4dqpsk_rx(gr.top_block):
         ##################################################
         # Blocks
         ##################################################
-
-        self.rtlsdr_source = osmosdr.source(
-            args="numchan=" + str(1) + " " + ''
-        )
+        serial_value = os.environ.get('RTLSERIAL')
+        frequency_value = os.environ.get('FREQ')
+        frequency_value = float(frequency_value)
+        rfgain_value = os.environ.get('GAIN')
+        rfgain_value = float(rfgain_value)
+        self.rtlsdr_source = osmosdr.source(args="rtl=%s" % serial_value)
         self.rtlsdr_source.set_time_unknown_pps(osmosdr.time_spec_t())
         self.rtlsdr_source.set_sample_rate(samp_rate)
-        self.rtlsdr_source.set_center_freq((420.150*1e6-150*1e3), 0)
+        self.rtlsdr_source.set_center_freq((frequency_value * 1e6 - 150 * 1e3), 0)
         self.rtlsdr_source.set_freq_corr(0, 0)
         self.rtlsdr_source.set_dc_offset_mode(0, 0)
         self.rtlsdr_source.set_iq_balance_mode(0, 0)
         self.rtlsdr_source.set_gain_mode(True, 0)
-        self.rtlsdr_source.set_gain(14, 0)
+        self.rtlsdr_source.set_gain(rfgain_value, 0)
         self.rtlsdr_source.set_if_gain(0, 0)
         self.rtlsdr_source.set_bb_gain(0, 0)
         self.rtlsdr_source.set_antenna('', 0)
