@@ -48,15 +48,13 @@ class pi4dqpsk_rx(gr.top_block):
         self.decim = decim = 32
         self.channel_rate = channel_rate = 36000
         self.arity = arity = 4
-
+        serial_value = os.environ.get('RTLSERIAL')
+        frequency_value = float(os.environ.get('FREQ'))   
+        rfgain_value = float(os.environ.get('GAIN'))
+        
         ##################################################
         # Blocks
         ##################################################
-        serial_value = os.environ.get('RTLSERIAL')
-        frequency_value = os.environ.get('FREQ')
-        frequency_value = float(frequency_value)
-        rfgain_value = os.environ.get('GAIN')
-        rfgain_value = float(rfgain_value)
         self.rtlsdr_source = osmosdr.source(args="rtl=%s" % serial_value)
         self.rtlsdr_source.set_time_unknown_pps(osmosdr.time_spec_t())
         self.rtlsdr_source.set_sample_rate(samp_rate)
