@@ -3,9 +3,15 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.phy
+    device_cgroup_rules:
+      - "c 189:* rwm"
     devices:
-      - /dev/bus/usb/003/013
+      - /dev/bus/usb:/dev/bus/usb
     shm_size: '2g'
+    environment:
+      - FREQ=424.0005
+      - GAIN=49.6
+      - RTLSERIAL=00000005
   decoder:
     build:
       context: .
